@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """
-Usage: gci-validator (FILE)
+Usage: 
+    gci-validator (FILE)
 
---version   Show program version
+Options:
+    --version   Show program version
 
 """
 from docopt import docopt

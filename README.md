@@ -8,6 +8,16 @@ CSV validator for the [Google Code-in Web API](https://developers.google.com/ope
 pip install gci-validator
 ```
 
+### Usage
+```
+Usage: 
+    gci-validator (FILE)
+
+Options:
+    --version   Show program version
+
+```
+
 ### Todo
 - [ ] Add more flexible command-line options
 	- [ ] Verbose validation output
