@@ -14,6 +14,7 @@ setup(
     author_email="hsing.daniel@gmail.com",
     license="MIT",
     scripts=["bin/gci-validator"],
+    keywords=["google code in", "gci", "csv", "validation"],
     install_requires=[
         "docopt"
     ]
