@@ -35,10 +35,6 @@ def exit(msg):
     sys.exit(0)
 
 
-def not_valid_categories(input):
-    return not str(input) in ["1", "2", "3", "4", "5"]
-
-
 def get_missing_fields(fields):
     return list(set(REQUIRED_FIELDS) - set(fields) & set(REQUIRED_FIELDS))
 
