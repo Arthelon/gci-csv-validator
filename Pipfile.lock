@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5f0257fe8c7a73db1c8de519faa92c658282a01087eb2bfafba7962704c23e27"
+            "sha256": "88a225568dbea1772272a7f9ed8bbb6c2137a80c3ec9fd502383ee9740c0abd2"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -26,6 +26,13 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "docopt": {
+            "hashes": [
+                "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
+            ],
+            "version": "==0.6.2"
+        }
+    },
     "develop": {}
 }
