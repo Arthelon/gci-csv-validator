@@ -73,4 +73,4 @@ if __name__ == '__main__':
                     )
             print("Finished")
     else:
-        print("File '{0}' not found".format(file_name))
+        exit("File '{0}' not found".format(file_name))
