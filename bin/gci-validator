@@ -30,6 +30,11 @@ FIELD_VALIDATORS = {
 }
 
 
+def exit(msg):
+    print("{0}. Exiting...".format(msg))
+    sys.exit(0)
+
+
 def not_valid_categories(input):
     return not str(input) in ["1", "2", "3", "4", "5"]
 
@@ -55,17 +60,21 @@ if __name__ == '__main__':
     file_name = arguments["FILE"]
     if os.path.exists(file_name):
         with open(file_name, mode="r") as file:
-            try:
-                reader = csv.DictReader(file, )
-                missing_fields = get_missing_fields(reader.fieldnames)
-                if len(missing_fields) > 0:
-                    print("The following fields are required: {0}".format(
-                        missing_fields))
-                    sys.exit(0)
-                for index, row in enumerate(reader):
+            reader = csv.DictReader(file)
+            if not reader.fieldnames:
+                exit("Could not find CSV header")
+            missing_fields = get_missing_fields(reader.fieldnames)
+            if len(missing_fields) > 0:
+                exit("The following fields are required: {0}".format(
+                    missing_fields))
+            for index, row in enumerate(reader):
+                try:
                     validate_row(index + 1, row)
-                print("Finished")
-            except TypeError as err:
-                print(err)
+                except Exception as err:
+                    print(
+                        "Exception occured while validation {0}th record: {1}".format(
+                            index + 1, err)
+                    )
+            print("Finished")
     else:
         print("File '{0}' not found".format(file_name))
