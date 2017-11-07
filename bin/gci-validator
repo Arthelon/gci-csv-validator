@@ -47,14 +47,12 @@ def get_missing_fields(fields):
 
 def validate_row(index, row):
     for field, value in row.items():
-        if field not in FIELD_VALIDATORS.keys():
-            row_message(index, "Invalid field: '{0}'".format(field))
         if not value:
             if field in REQUIRED_FIELDS:
                 row_message(
                     index, "Required field left blank: {0}".format(field))
-        elif not FIELD_VALIDATORS[field][0](value):
-            row_message(index, "Invalid field '{0}' with value {1}. {2}".format(
+        elif field in FIELD_VALIDATORS.keys() and not FIELD_VALIDATORS[field][0](value):
+            row_message(index, "Field '{0}' with invalid value {1}. {2}".format(
                 field, value, FIELD_VALIDATORS[field][1]))
 
 
