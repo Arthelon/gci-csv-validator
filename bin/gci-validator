@@ -57,7 +57,7 @@ def validate_row(index, row):
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version="0.0.1")
+    arguments = docopt(__doc__, version="0.0.5")
     file_name = arguments["FILE"]
     if os.path.exists(file_name):
         with open(file_name, mode="r") as file:
