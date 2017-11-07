@@ -32,6 +32,10 @@ FIELD_VALIDATORS = {
 }
 
 
+def row_message(index, msg):
+    print("{0} - {1}".format(index, msg))
+
+
 def exit(msg):
     print("{0}. Exiting...".format(msg))
     sys.exit(0)
@@ -43,14 +47,15 @@ def get_missing_fields(fields):
 
 def validate_row(index, row):
     for field, value in row.items():
+        if field not in FIELD_VALIDATORS.keys():
+            row_message(index, "Invalid field: '{0}'".format(field))
         if not value:
             if field in REQUIRED_FIELDS:
-                print("{0} - Required field left blank: {1}".format(
-                    index, field))
-            continue
+                row_message(
+                    index, "Required field left blank: {0}".format(field))
         elif not FIELD_VALIDATORS[field][0](value):
-            print("{0} - Invalid field '{1}' with value {2}. {3}".format(
-                index, field, value, FIELD_VALIDATORS[field][1]))
+            row_message(index, "Invalid field '{0}' with value {1}. {2}".format(
+                field, value, FIELD_VALIDATORS[field][1]))
 
 
 if __name__ == '__main__':
