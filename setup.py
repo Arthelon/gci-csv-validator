@@ -6,12 +6,13 @@ def readme():
 
 setup(
     name="gci-validator",
-    version="0.0.2",
+    version="0.0.3",
+    url="https://github.com/arthelon/gci-csv-validator",
     long_description=readme(),
     description="CSV validator for the Google Code-in web API",
     author="Daniel Hsing",
     author_email="hsing.daniel@gmail.com",
-    license="LICENSE",
+    license="MIT",
     scripts=["bin/gci-validator"],
     install_requires=[
         "docopt"
