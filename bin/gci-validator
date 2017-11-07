@@ -75,7 +75,7 @@ if __name__ == '__main__':
                     validate_row(index + 1, row)
                 except Exception as err:
                     print(
-                        "Exception occured while validation {0}th record: {1}".format(
+                        "Exception occured while validating {0}th record: {1}".format(
                             index + 1, err)
                     )
             print("Finished")
