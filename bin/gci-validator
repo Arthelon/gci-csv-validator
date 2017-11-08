@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""
-Usage: 
-    gci-validator (FILE)
+"""Usage: gci-validator (FILE) [options]
 
 Options:
-    --version   Show program version
+    -h --help    Show help text
+    -v --version Show program version
 
 """
 from docopt import docopt
@@ -14,6 +13,8 @@ import sys
 
 BOOLEAN_VALUES = ['yes', 'no']
 VALID_CATEGORIES = ['1', '2', '3', '4', '5']
+REQUIRED_FIELDS_FOR_PUBLISH = ["name", "max_instances",
+                               "description", "categories", "time_to_complete_in_days", "mentors"]
 REQUIRED_FIELDS = [
     "name", "description", "mentors", "categories", "time_to_complete_in_days"
 ]
@@ -25,7 +26,8 @@ FIELD_VALIDATORS = {
     "mentors": [lambda x: len(x.split(",")) <= 30, "'mentors' can contain at most 30 comma-separated list of emails"],
     "is_beginner": [lambda x: x in BOOLEAN_VALUES, "valid 'is_beginner' values: {0}".format(BOOLEAN_VALUES)],
     "tags": [lambda x: True, ""],
-    "categories": [lambda x: len([item for item in x.split(',') if item not in VALID_CATEGORIES]) == 0, "'categories' must be a comma-separated list of the following category IDs: {0}".format(VALID_CATEGORIES)],
+    "categories": [lambda x: len([item for item in x.split(',') if item not in VALID_CATEGORIES]) == 0,
+                   "'categories' must be a comma-separated list of the following category IDs: {0}".format(VALID_CATEGORIES)],
     "time_to_complete_in_days": [lambda x: int(x) >= 3 and int(x) <= 7, "'time_to_complete_in_days' must be between 3 and 7"],
     "private_metadata": [lambda x: len(str(x)) <= 80, "'private_metadata' can contain a maximum of 80 characters"],
     "external_url": [lambda x: True, ""]
@@ -45,15 +47,32 @@ def get_missing_fields(fields):
     return list(set(REQUIRED_FIELDS) - set(fields) & set(REQUIRED_FIELDS))
 
 
+def validate_publish_fields(fields_status):
+    try:
+        return all([fields_status[field] for field in REQUIRED_FIELDS_FOR_PUBLISH])
+    except AttributeError as err:
+        return False  # will be False if 'max_instances' field is missing
+
+
 def validate_row(index, row):
+    fields_status = {field: False for field in row.keys()}
     for field, value in row.items():
         if not value:
             if field in REQUIRED_FIELDS:
                 row_message(
                     index, "Required field left blank: '{0}'".format(field))
+            else:
+                continue
         elif field in FIELD_VALIDATORS.keys() and not FIELD_VALIDATORS[field][0](value):
             row_message(index, "Field '{0}' with invalid value '{1}'. {2}".format(
                 field, value, FIELD_VALIDATORS[field][1]))
+            continue
+        # Field is valid
+        fields_status[field] = True
+    if hasattr(row, "status") and row["status"] == 2\
+            and not validate_publish_fields(fields_status):
+        row_message(index, "The following fields must be valid for status to be 2: {0}".format(
+            REQUIRED_FIELDS_FOR_PUBLISH))
 
 
 if __name__ == '__main__':

@@ -10,12 +10,11 @@ pip install gci-validator
 
 ### Usage
 ```
-Usage: 
-    gci-validator (FILE)
+Usage: gci-validator (FILE) [options]
 
 Options:
-    --version   Show program version
-
+    -h --help    Show help text
+    -v --version Show program version
 ```
 
 ### Todo
@@ -24,7 +23,7 @@ Options:
 	- [ ] Custom boolean flags
 	- [ ] Custom selection of tags
 	- [ ] Custom meta-data validator
-- [ ] Add validation logic to 'status' field so that it can only be set to "Published" (1) if the below fields are entered validly:
+- [x] Add validation logic to 'status' field so that it can only be set to "Published" (2) if the below fields are entered validly:
 	- 'name'
 	- 'description'
 	- 'max_instances'
