@@ -11,26 +11,26 @@ import csv
 import os
 import sys
 
-BOOLEAN_VALUES = ['yes', 'no']
-VALID_CATEGORIES = ['1', '2', '3', '4', '5']
-REQUIRED_FIELDS_FOR_PUBLISH = ["name", "max_instances",
-                               "description", "categories", "time_to_complete_in_days", "mentors"]
-REQUIRED_FIELDS = [
+BOOLEAN_VALUES = ('yes', 'no')
+VALID_CATEGORIES = ('1', '2', '3', '4', '5')
+REQUIRED_FIELDS_FOR_PUBLISH = ("name", "max_instances",
+                               "description", "categories", "time_to_complete_in_days", "mentors")
+REQUIRED_FIELDS = (
     "name", "description", "mentors", "categories", "time_to_complete_in_days"
-]
+)
 FIELD_VALIDATORS = {
-    "name": [lambda x: len(x) <= 200, "'name' must be less than or equal to 200 characters"],
-    "description": [lambda x: len(x) <= 500, "'description' must be less than or equal to 500 characters"],
-    "status": [lambda x: x == "1" or x == "2", "valid 'status' values: [1, 2]"],
-    "max_instances": [lambda x: int(x) > 0 and int(x) <= 100, "'max_instances' must be between 0 and 100"],
-    "mentors": [lambda x: len(x.split(",")) <= 30, "'mentors' can contain at most 30 comma-separated list of emails"],
-    "is_beginner": [lambda x: x in BOOLEAN_VALUES, "valid 'is_beginner' values: {0}".format(BOOLEAN_VALUES)],
-    "tags": [lambda x: True, ""],
-    "categories": [lambda x: len([item for item in x.split(',') if item not in VALID_CATEGORIES]) == 0,
-                   "'categories' must be a comma-separated list of the following category IDs: {0}".format(VALID_CATEGORIES)],
-    "time_to_complete_in_days": [lambda x: int(x) >= 3 and int(x) <= 7, "'time_to_complete_in_days' must be between 3 and 7"],
-    "private_metadata": [lambda x: len(str(x)) <= 80, "'private_metadata' can contain a maximum of 80 characters"],
-    "external_url": [lambda x: True, ""]
+    "name": (lambda x: len(x) <= 200, "'name' must be less than or equal to 200 characters"),
+    "description": (lambda x: len(x) <= 500, "'description' must be less than or equal to 500 characters"),
+    "status": (lambda x: x == "1" or x == "2", "valid 'status' values: [1, 2]"),
+    "max_instances": (lambda x: int(x) > 0 and int(x) <= 100, "'max_instances' must be between 0 and 100"),
+    "mentors": (lambda x: len(x.split(",")) <= 30, "'mentors' can contain at most 30 comma-separated list of emails"),
+    "is_beginner": (lambda x: x in BOOLEAN_VALUES, "valid 'is_beginner' values: {0}".format(BOOLEAN_VALUES)),
+    "tags": (lambda x: True, ""),
+    "categories": (lambda x: len([item for item in x.split(',') if item not in VALID_CATEGORIES]) == 0,
+                   "'categories' must be a comma-separated list of the following category IDs: {0}".format(VALID_CATEGORIES)),
+    "time_to_complete_in_days": (lambda x: int(x) >= 3 and int(x) <= 7, "'time_to_complete_in_days' must be between 3 and 7"),
+    "private_metadata": (lambda x: len(str(x)) <= 80, "'private_metadata' can contain a maximum of 80 characters"),
+    "external_url": (lambda x: True, "")
 }
 
 
