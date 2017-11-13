@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Usage: gci-validator (FILE) [options]
+"""gci-validator.
+
+Usage: 
+    gci-validator (FILE) [options]
 
 Options:
-    -h --help    Show help text
-    -v --version Show program version
+    -h --help    Show help text.
+    -v --version Show program version.
+    -b=<bvals>   Define boolean values. Separated by commas [default: yes, no].
 
 """
 from docopt import docopt
@@ -24,7 +28,7 @@ FIELD_VALIDATORS = {
     "status": (lambda x: x == "1" or x == "2", "valid 'status' values: [1, 2]"),
     "max_instances": (lambda x: int(x) > 0 and int(x) <= 100, "'max_instances' must be between 0 and 100"),
     "mentors": (lambda x: len(x.split(",")) <= 30, "'mentors' can contain at most 30 comma-separated list of emails"),
-    "is_beginner": (lambda x: x in BOOLEAN_VALUES, "valid 'is_beginner' values: {0}".format(BOOLEAN_VALUES)),
+    "is_beginner": (lambda x: x in BOOLEAN_VALUES, lambda: "valid 'is_beginner' values: {0}".format(list(BOOLEAN_VALUES))),
     "tags": (lambda x: True, ""),
     "categories": (lambda x: len([item for item in x.split(',') if item not in VALID_CATEGORIES]) == 0,
                    "'categories' must be a comma-separated list of the following category IDs: {0}".format(VALID_CATEGORIES)),
@@ -32,6 +36,13 @@ FIELD_VALIDATORS = {
     "private_metadata": (lambda x: len(str(x)) <= 80, "'private_metadata' can contain a maximum of 80 characters"),
     "external_url": (lambda x: True, "")
 }
+
+
+def validate_cli_args(args):
+    global BOOLEAN_VALUES
+    if len(args["-b"]) == 0:
+        exit("Option '-b' cannot be empty")
+    BOOLEAN_VALUES = tuple(value.strip() for value in args["-b"].split(","))
 
 
 def row_message(index, msg):
@@ -64,8 +75,11 @@ def validate_row(index, row):
             else:
                 continue
         elif field in FIELD_VALIDATORS.keys() and not FIELD_VALIDATORS[field][0](value):
+            error_msg = FIELD_VALIDATORS[field][1]
+            if callable(error_msg):
+                error_msg = error_msg()
             row_message(index, "Field '{0}' with invalid value '{1}'. {2}".format(
-                field, value, FIELD_VALIDATORS[field][1]))
+                field, value, error_msg))
             continue
         # Field is valid
         fields_status[field] = True
@@ -76,8 +90,9 @@ def validate_row(index, row):
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version="0.0.5")
+    arguments = docopt(__doc__, version="0.0.6")
     file_name = arguments["FILE"]
+    validate_cli_args(arguments)
     if os.path.exists(file_name):
         with open(file_name, mode="r") as file:
             reader = csv.DictReader(file)

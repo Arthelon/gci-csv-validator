@@ -9,18 +9,21 @@ pip install gci-validator
 ```
 
 ### Usage
-```
-Usage: gci-validator (FILE) [options]
+```gci-validator.
+Usage: 
+    gci-validator (FILE) [options]
 
 Options:
-    -h --help    Show help text
-    -v --version Show program version
+    -h --help    Show help text.
+    -v --version Show program version.
+    -b=<bvals>   Define boolean values. Separated by commas [default: yes, no].
+
 ```
 
 ### Todo
 - [ ] Add more flexible command-line options
 	- [ ] Verbose validation output
-	- [ ] Custom boolean flags
+	- [x] Custom boolean flags
 	- [ ] Custom selection of tags
 	- [ ] Custom meta-data validator
 - [x] Add validation logic to 'status' field so that it can only be set to "Published" (2) if the below fields are entered validly:
