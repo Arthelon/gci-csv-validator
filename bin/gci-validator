@@ -7,7 +7,7 @@ Usage:
 Options:
     -h --help    Show help text.
     -v --version Show program version.
-    -b=<bvals>   Define boolean values. Separated by commas [default: yes, no].
+    -b=<bvals>   Define boolean values. Separated by commas [default: true, false].
 
 """
 from docopt import docopt
@@ -15,7 +15,7 @@ import csv
 import os
 import sys
 
-BOOLEAN_VALUES = ('yes', 'no')
+BOOLEAN_VALUES = ('true', 'false')
 VALID_CATEGORIES = ('1', '2', '3', '4', '5')
 REQUIRED_FIELDS_FOR_PUBLISH = ("name", "max_instances",
                                "description", "categories", "time_to_complete_in_days", "mentors")
@@ -90,7 +90,7 @@ def validate_row(index, row):
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version="0.0.6")
+    arguments = docopt(__doc__, version="0.0.7")
     file_name = arguments["FILE"]
     validate_cli_args(arguments)
     if os.path.exists(file_name):

@@ -16,7 +16,7 @@ Usage:
 Options:
     -h --help    Show help text.
     -v --version Show program version.
-    -b=<bvals>   Define boolean values. Separated by commas [default: yes, no].
+    -b=<bvals>   Define boolean values. Separated by commas [default: true, false].
 
 ```
 
